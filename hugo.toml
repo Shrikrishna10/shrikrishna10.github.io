@@ -1,7 +1,7 @@
 baseURL = "https://shrikrishna10.github.io/"
 languageCode = "en-us"
 title = "Shrikrishna Pandit"
-theme = "xMin"
+theme = "hugo-xmin"
 
 [params]
   name = "Shrikrishna Pandit"
