@@ -41,6 +41,6 @@ theme = "hugo-xmin"
 
   [[menu.main]]
   name = "LinkedIn"
-  url = "https://linkedin.com/in/shrikrishna-pandit"
+  url = "https://www.linkedin.com/in/shrikrishna-pandit-250b5424b/"
   weight = 6
 
