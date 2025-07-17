@@ -1,3 +1,8 @@
+
+---
+title: "Compute in memory workshop notes"
+---
+
 # Challenge
 
 # Aims of this Tutorial

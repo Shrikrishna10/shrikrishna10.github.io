@@ -1,3 +1,8 @@
+
+---
+title: "cuda memory workshop notes"
+---
+
 cuda memory model: Hierarchies and bringing it together
 
 What is memory?
