@@ -6,9 +6,9 @@ theme = "hugo-xmin"
 [params]
   name = "Shrikrishna Pandit"
   avatar = "images/profile.jpg"
-#  bio = """ECE @ PES University
-#Focus: VLSI, FPGA Design, Verification
-#Open to Research Roles"""
+  bio = """ECE @ PES University
+Focus: VLSI, FPGA Design, Verification
+Open to Research Roles"""
   github = "https://github.com/Shrikrishna10"
   linkedin = "https://linkedin.com/in/shrikrishna-pandit"
 

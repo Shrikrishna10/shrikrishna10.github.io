@@ -1,0 +1,15 @@
+{{ partial "header.html" . }}
+
+<main>
+  <div style="display: flex; align-items: center; gap: 2rem;">
+    <div style="flex: 1;">
+      {{ .Content }}
+    </div>
+    <div style="flex-shrink: 0;">
+      <img src="/images/profile.jpg" alt="Shrikrishna Pandit" style="max-width: 200px; border-radius: 10px;">
+    </div>
+  </div>
+</main>
+
+{{ partial "footer.html" . }}
+
