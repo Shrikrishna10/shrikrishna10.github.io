@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en-us" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+    <link rel="stylesheet" href="{{ "css/fonts.css" | relURL }}">
+    <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
+  </head>
+  <body>
+    <nav>
+      <ul class="menu">
+        {{ range .Site.Menus.main }}
+        {{ $url := .URL }}
+        <li><a href="{{ if or (hasPrefix $url "http://") (hasPrefix $url "https://") }}{{ $url }}{{ else }}{{ $url | relURL }}{{ end }}">{{ .Name }}</a></li>
+        {{ end }}
+      </ul>
+    </nav>
+    <hr>

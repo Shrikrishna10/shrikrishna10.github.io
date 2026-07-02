@@ -1,4 +1,3 @@
-
 ---
 title: "Compute in memory workshop notes"
 ---

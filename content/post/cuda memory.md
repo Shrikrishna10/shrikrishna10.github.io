@@ -1,4 +1,3 @@
-
 ---
 title: "cuda memory workshop notes"
 ---

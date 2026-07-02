@@ -1,7 +1,6 @@
 baseURL = "https://shrikrishna10.github.io/"
 languageCode = "en-us"
 title = "Shrikrishna Pandit"
-theme = "hugo-xmin"
 
 [params]
   name = "Shrikrishna Pandit"
@@ -31,7 +30,7 @@ Open to Research Roles"""
 
   [[menu.main]]
   name = "Resume"
-  url = "/resume/"
+  url = "/files/resume-profile-image.pdf"
   weight = 4
 
   [[menu.main]]
@@ -43,4 +42,3 @@ Open to Research Roles"""
   name = "LinkedIn"
   url = "https://www.linkedin.com/in/shrikrishna-pandit-250b5424b/"
   weight = 6
-

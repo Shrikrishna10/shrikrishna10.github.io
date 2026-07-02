@@ -1,15 +1,14 @@
 {{ partial "header.html" . }}
 
-<main>
-  <div style="display: flex; align-items: center; gap: 2rem;">
-    <div style="flex: 1;">
+<main class="home">
+  <div class="home-intro">
+    <div>
       {{ .Content }}
     </div>
-    <div style="flex-shrink: 0;">
-      <img src="/images/profile.jpg" alt="Shrikrishna Pandit" style="max-width: 200px; border-radius: 10px;">
+    <div class="profile-photo">
+      <img src="{{ "images/profile.jpg" | relURL }}" alt="Shrikrishna Pandit">
     </div>
   </div>
 </main>
 
 {{ partial "footer.html" . }}
-

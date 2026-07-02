@@ -1,0 +1,117 @@
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 1.5;
+}
+
+.menu {
+  padding: 0;
+  text-align: center;
+}
+
+.menu li {
+  display: inline-block;
+}
+
+.menu a {
+  background: #eee;
+  border-radius: 5px;
+  padding: 5px;
+  text-decoration: none;
+}
+
+hr {
+  border-style: dashed;
+  color: #ddd;
+}
+
+.home-intro {
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+}
+
+.profile-photo {
+  flex-shrink: 0;
+}
+
+.profile-photo img {
+  border-radius: 10px;
+  max-width: 200px;
+}
+
+.post-list {
+  padding-left: 1.25rem;
+}
+
+.post-list li {
+  margin: 0.5rem 0;
+}
+
+.post-list span {
+  color: #666;
+  display: block;
+  font-size: 0.9rem;
+}
+
+footer {
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+pre {
+  border: 1px solid #ddd;
+  box-shadow: 5px 5px 5px #eee;
+  overflow-x: auto;
+  padding: 1em;
+}
+
+code {
+  background: #f9f9f9;
+}
+
+pre code {
+  background: none;
+}
+
+img,
+iframe,
+video {
+  max-width: 100%;
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #ccc;
+  padding: 3px 1em;
+}
+
+table {
+  border-bottom: 1px solid #666;
+  border-top: 1px solid #666;
+  margin: auto;
+}
+
+table thead th {
+  border-bottom: 1px solid #ddd;
+}
+
+th,
+td {
+  padding: 5px;
+}
+
+thead,
+tfoot,
+tr:nth-child(even) {
+  background: #eee;
+}
+
+@media (max-width: 640px) {
+  .home-intro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
