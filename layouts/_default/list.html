@@ -8,6 +8,7 @@
     <li>
       <a href="{{ .RelPermalink }}">{{ .Title }}</a>
       {{ with .Date }}<span>{{ .Format "Jan 2, 2006" }}</span>{{ end }}
+      {{ with .Params.summary }}<p>{{ . }}</p>{{ end }}
     </li>
     {{ end }}
   </ul>
