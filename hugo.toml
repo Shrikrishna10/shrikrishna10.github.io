@@ -24,7 +24,7 @@ Open to Research Roles"""
   weight = 2
 
   [[menu.main]]
-  name = "Projects"
+  name = "Projects & Notes"
   url = "/projects/"
   weight = 3
 

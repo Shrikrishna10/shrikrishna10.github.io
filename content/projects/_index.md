@@ -1,5 +1,5 @@
 ---
-title: "Projects"
+title: "Projects & Notes"
 ---
 
-Selected hardware and systems projects.
+A growing archive of hardware projects, verification work, research notes, and systems experiments.
