@@ -1,49 +1,59 @@
 ---
-title: "Nested DFX / PRFlow Reproduction Notes"
+title: "HPR / Nested DFX Toolflow Notes"
 date: 2025-06-24T00:00:00Z
 draft: false
-summary: "Reproduction and adaptation notes for the FPT2022 Nested DFX / PRFlow framework on ZCU102 with Vitis 2021.1."
+summary: "Literature and toolflow notes on Hierarchical Partial Reconfiguration, recombinable PR pages, NoC-connected operators, and a failed local reproduction attempt."
 ---
 
-These are reproduction and adaptation notes for an existing research framework, not a standalone project claim. The source repository is based on the FPT2022 Nested DFX / PRFlow work on fast FPGA development using hierarchical partial reconfiguration.
+These are literature and toolflow notes based on my HPR notes and the FCCM 2022 Hierarchical Partial Reconfiguration paper. The work is treated as a reference study rather than a completed local reproduction, because my attempt to run the toolflow was ultimately abandoned.
 
-The upstream framework extends earlier PRFlow and PLD work by generating variable-sized partial-reconfiguration pages through Nested DFX, then assigning operators to single, double, or quad pages based on resource needs.
+The useful takeaway for my DPR capstone was the architecture idea: recombinable partial-reconfiguration pages connected by a NoC, so operators can be mapped to a page size that fits them instead of forcing every operator into one fixed-size region.
 
-## Upstream Context
+## Core Idea
 
-The framework targets hierarchical partial reconfiguration on the Xilinx ZCU102 platform. Its main idea is to build an overlay where smaller PR pages can be recombined into larger pages, giving the toolflow more flexibility than fixed-size page layouts.
+HPR uses hierarchical, recombinable PR pages:
 
-The README also notes that the FPT2022 artifact received available, functional, reusable, and replicated artifact badges. That matters for these notes because the local work is about reproducing and adapting a published framework, not presenting the framework as original work.
+- Single pages for small operators.
+- Double pages for medium operators.
+- Quad pages for larger operators.
 
-## Setup Target
+The pages are connected using a Network-on-Chip, with the notes pointing to a Hoplite BF-style variant. This lets the runtime connect operators after their partial bitstreams are loaded.
 
-The documented environment is Ubuntu 20.04 with Vitis 2021.1 and a ZCU102 evaluation board. The setup requires:
+The main benefit is that the user does not have to manually decompose each operator to fit a fixed PR slot. The framework can place an operator into the smallest page size that satisfies its resource needs.
 
-- Xilinx Vitis 2021.1 configuration paths.
-- A ZynqMP common image from the Vitis embedded platform release.
-- A generated ZCU102 Base DFX platform.
-- A modified static implementation constraint file to reserve more area for the dynamic region.
+## Workflow
 
-Those version and platform constraints are strict enough that reproducing the flow on a different host setup is part of the work, not a trivial rerun.
+The HPR flow is organized around independent operator compilation:
 
-## Overlay Generation
+1. Operators are written in C or C++.
+2. Vitis HLS synthesizes operators in parallel and emits resource-utilization reports.
+3. The tool parses those reports and greedily assigns each operator to the smallest fitting Single, Double, or Quad page.
+4. Assigned pages are placed and routed in parallel.
+5. Partial bitstreams are generated for each operator page.
+6. At runtime, the NoC is configured to connect the operators.
 
-The overlay flow subdivides the base dynamic region into hierarchical PR pages, runs place-and-route after each subdivision step, and finally generates intermediate bitstreams and abstract shells from the same final routed design.
+This makes the flow more adaptive to operator size than fixed-page PR systems.
 
-That same-design requirement is important: partial bitstreams generated from the abstract shells need to be mutually compatible with the page hierarchy and routing context.
+## Comparison
 
-## Expected Rough Edges
+The comparison that mattered most in my notes was:
 
-The upstream notes call out practical issues in the Vivado flow, including a partial-antenna DRC error during overlay generation. The workaround involves opening Vivado, manually running specific Tcl scripts, then continuing the Makefile and report-generation steps.
+| Approach | Page model | Practical issue |
+|----------|------------|-----------------|
+| PR with NoC | Fixed PR pages connected by a NoC | Operators must fit fixed slots or be manually split |
+| RapidStream | Fixed implementation islands | Helps compilation, but still depends on partitioning and stitching |
+| HPR | Hierarchical Single/Double/Quad pages | Adapts page size to operator resource needs |
 
-The flow is also compute-heavy. Overlay generation can take several hours because the Nested DFX steps are sequentialized by the tool behavior.
+Compared with fixed-size approaches, HPR reduces manual decomposition and wasted area from mismatched page sizes. Compared with RapidStream, the emphasis is not only compile-time improvement, but runtime reconfiguration of operators through a hierarchical PR overlay.
 
-## Compile and Reporting Flow
+## Reported Results
 
-After overlay generation, operator compilation runs HLS and Vivado synthesis jobs, synchronizes after synthesis, assigns operators to suitable PR page sizes, and launches implementation to generate partial bitstreams.
+The paper reports synthesis-time reduction and lower manual effort because operators can be compiled independently and mapped to page sizes automatically. The important result for my work was conceptual: a controller does not need to assume one accelerator size or one fixed slot if the fabric can expose recombinable pages.
 
-The reporting flow parses logs to summarize compile time for HLS, synthesis, and implementation. The local reproduction notes track this as a toolflow study: environment setup, overlay generation, compile-time reporting, and where manual intervention is expected.
+This directly informed the proposed CFU controller direction in the DPR project: keep the runtime interface flexible enough that different accelerator modules can be loaded and connected without baking every module into the static design.
 
-## Local Status
+## Implementation Note
 
-The local copy is still in reproduction/adaptation state. The main remaining cleanup is making file paths, platform paths, and host-specific configuration consistent enough for a final end-to-end run. Until that is done, it should be treated as framework reproduction notes rather than a completed local implementation.
+I attempted to reproduce the HPR toolflow, but abandoned the run because of version and resource constraints. The setup ran into a combination of Vivado-version mismatch, Linux-kernel mismatch, and driver or library conflicts.
+
+The available machine was also pushed well past its limits during place-and-route. Jobs failed or hung under the compute and memory pressure. For that reason, HPR stayed as a literature reference in my report rather than a reproduced implementation result.
